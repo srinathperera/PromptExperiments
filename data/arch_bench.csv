@@ -1,0 +1,27 @@
+Story
+"A system for patients to schedule doctor appointments 
+Administrators can add/ edit a document appointment's details 
+Users can create appointments ( after making a payment), list and read details about appointments, and cancel appointments 
+Users get notified when doctors arrive "
+"A retail E-Commerce site 
+Product Catalog Management: As a Retail Administrator, I want to add, update, and categorize products (including images and inventory levels) so the Website Service can display the current catalog.
+Real-time Recommendations: As a Customer, I want to see personalized product suggestions based on my browsing and purchase history, so I can discover items relevant to me.
+Order Processing: As a Customer, I want to place an order and receive a confirmation, so the system can process the payment, deduct inventory, and notify the shipping service.
+As a customer, I want to return an item I have received "
+"Media & Streaming
+Video Encoding & Delivery: As a Content Creator, I want to upload a video file and have it automatically encoded into multiple streaming formats and delivered to the Content Delivery Network (CDN), so it can be streamed efficiently across all devices.
+User Authentication & Authorization: As a Subscriber, I want to log in once to access content, and have my subscription status verified by the Authorization Service before I can start streaming a movie."
+"Logistics & Finance
+As a Customer, I want to create a new delivery after making the only payment and receipt a delivery label  
+Shipment Tracking: As a Customer, I want to enter my tracking number and instantly see the current location and status of my package, which is aggregated from multiple carrier services."
+"Fraud Detection: 
+As a Bank Manager, I want the system to flag and block any payment transaction that meets suspicious criteria (e.g., unusual location, high amount, rapid transactions) to prevent financial loss."
+"Flight Reservation:
+As a Traveler, I want to search and book a flight from a pool of available seats, and have the seat status updated across all booking channels in real-time.
+As a traveler, I want to list my reservations, update them 
+I want to receive updates about my reservation "
+"Health & Enterprise
+Inventory/Asset Tracking: As a Hospital Technician, I want to scan a medical device and instantly read its full maintenance history and calibration status, which is maintained separately from patient records.
+As a manager I want to ger a report of all devices 
+As a manager I want to be able to add new devices after authentication 
+I want to receive notification about maintenance and other problems about devices "

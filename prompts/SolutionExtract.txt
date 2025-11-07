@@ -1,90 +1,171 @@
-Consider the following system. 
-<system>
-{{SYSTEMSTORY}}
-</system>
-Describe the system using a SDG as described below. 
+Attached image shows a software architecture for the following PROBLEM. Extract the architecture from the image and Describe the system using a SDG as described below. 
+
 An Service Dependency Graph (SDG) is a directed graph G=(V,E)
+
 V = services, databases, LB, file system, users, task or a eventsource - vertices can be staeful or stateless  
+
 E - a set of directed edges edge vi,vj represents that service vi depends on service vj 
+
 This can be three types  
+
 Sync - vi calls vj and wait for vj to respond ( usually a HTTP/ TCP call) 
+
 Async - vi calls vj and continue ( no effect on failure) - usually a message broker call 
+
 Event wait - vi wait for a response from vj  - usually a message broker call
+
 We can use phi calculus to describe complex waits 
+
 Edges may be types or API calls 
+
 Let's think step by step. 
+
 Identify users in the system 
+
 Identify services in the system 
+
 Identify databases in the system 
+
 Represent their interactions as SDG. 
+
 Users, tasks, and eventsources are only vertices that can have on input nodes and only output nodes 
+
 Please provide the response SDG in JSON in the following from
+
 {
+
   "type": "object",
+
   "properties": {
+
     "Vertices": {
+
       "type": "array",
+
       "description": "A list of nodes in the graph, representing various components.",
+
       "items": {
+
         "type": "object",
+
         "properties": {
+
           "name": {
+
             "type": "string",
+
             "description": "The unique name of the vertex/component."
+
           },
+
           "type": {
+
             "type": "string",
+
             "description": "The type of the component.",
+
             "enum": [
+
               "user",
+
               "service",
+
               "database",
+
               "file",
+
               "loadbalancer",
+
               "task",
+
               "eventsource"
+
             ]
+
           },
+
           "description": {
+
             "type": "string",
+
             "description": "A brief explanation or description of the component.",
+
             "optional": true
+
           }
+
         },
+
         "required": ["name", "type"]
+
       }
+
     },
+
     "Edges": {
+
       "type": "array",
+
       "description": "A list of connections between the vertices.",
+
       "items": {
+
         "type": "object",
+
         "properties": {
+
           "src": {
+
             "type": "string",
+
             "description": "The name of the source vertex (must match a 'name' in Vertices)."
+
           },
+
           "target": {
+
             "type": "string",
+
             "description": "The name of the target vertex (must match a 'name' in Vertices)."
+
           },
+
           "type": {
+
             "type": "string",
+
             "description": "The type of connection or interaction (e.g., sync, async, read, write)."
+
           }
+
         },
+
         "required": ["src", "target", "type"]
+
       }
+
     },
+
     "thinking": {
+
       "type": "array",
+
       "description": "A list of strings detailing the step-by-step reasoning or thought process.",
+
       "items": {
+
         "type": "string"
+
       },
+
       "optional": true
+
     }
+
   },
+
   "required": ["Vertices", "Edges"]
+
 }
-do NOT write anything outside the JSON. 
+
+do NOT write anything outside the JSON.  PROBLEM is given below: Library

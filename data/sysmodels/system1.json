@@ -1,0 +1,97 @@
+{
+    "Vertices": [
+      {
+        "name": "PatientUser",
+        "type": "user",
+        "description": "User who schedules, views, or cancels appointments (after payment)."
+      },
+      {
+        "name": "AdministratorUser",
+        "type": "user",
+        "description": "User who adds or edits appointment details."
+      },
+      {
+        "name": "DoctorArrivalEvent",
+        "type": "service",
+        "description": "Represents the event/signal when a doctor arrives, triggering notifications."
+      },
+      {
+        "name": "AppointmentService",
+        "type": "service",
+        "description": "Handles all CRUD operations for appointments (create, list, read, cancel, add/edit by admin)."
+      },
+      {
+        "name": "PaymentService",
+        "type": "service",
+        "description": "Processes patient payments before appointment creation."
+      },
+      {
+        "name": "NotificationService",
+        "type": "service",
+        "description": "Sends notifications to users, especially for doctor arrivals."
+      },
+      {
+        "name": "AppointmentDB",
+        "type": "database",
+        "description": "Stores all appointment details and related administrative data."
+      }
+    ],
+    "Edges": [
+      {
+        "src": "PatientUser",
+        "target": "AppointmentService",
+        "type": "Sync (HTTP/TCP call to list/read/cancel)"
+      },
+      {
+        "src": "PatientUser",
+        "target": "PaymentService",
+        "type": "Sync (HTTP/TCP call to initiate payment)"
+      },
+      {
+        "src": "AdministratorUser",
+        "target": "AppointmentService",
+        "type": "Sync (HTTP/TCP call to add/edit details)"
+      },
+      {
+        "src": "PaymentService",
+        "target": "AppointmentService",
+        "type": "Async (Message/Event indicating payment success to create appointment)"
+      },
+      {
+        "src": "AppointmentService",
+        "target": "AppointmentDB",
+        "type": "Sync (Read/Write appointment data)"
+      },
+      {
+        "src": "DoctorArrivalEvent",
+        "target": "NotificationService",
+        "type": "Async (Message/Event to trigger notification)"
+      },
+      {
+        "src": "NotificationService",
+        "target": "PatientUser",
+        "type": "Sync (Push/SMS/Email notification delivery)"
+      },
+      {
+        "src": "AppointmentService",
+        "target": "PaymentService",
+        "type": "Event wait (Waits for payment confirmation before finalizing appointment)"
+      }
+    ],
+    "thinking": [
+      "Identify users: 'Patients' (can create, list, read, cancel) and 'Administrators' (can add/edit details). Renamed to PatientUser and AdministratorUser.",
+      "Identify core services: 'AppointmentService' (for CRUD operations), 'PaymentService' (for payment requirement before creation), and 'NotificationService' (for notifying users).",
+      "Identify external inputs/triggers: The 'Users get notified when doctors arrive' implies a trigger for doctor arrival, modeled as a service 'DoctorArrivalEvent' or a system trigger.",
+      "Identify data stores: 'AppointmentDB' to store appointment details.",
+      "Define interactions (Edges):",
+      "PatientUser interacts with AppointmentService (sync) to list/read/cancel.",
+      "PatientUser initiates PaymentService (sync) for booking.",
+      "AdministratorUser interacts with AppointmentService (sync) for admin tasks.",
+      "AppointmentService reads/writes to AppointmentDB (sync).",
+      "For appointment creation: PatientUser -> PaymentService (Sync). Upon success, PaymentService (or a trigger from it) signals AppointmentService. I'll use 'Event wait' from AppointmentService to PaymentService, meaning the booking process waits for payment success, fulfilling the 'after making a payment' requirement. I will also add a simple Async from PaymentService to AppointmentService for simplicity, though 'Event wait' captures the logic better. I'll refine this: PatientUser initiates booking via AppointmentService, which calls PaymentService (Sync). If successful, AppointmentService proceeds to save, so a direct Sync call is more fitting for a simple API flow, but 'after making a payment' suggests a two-step. Let's model: PatientUser -> PaymentService (Sync to initiate payment). PaymentService -> AppointmentService (Async, indicating payment completed, triggering final creation).",
+      "DoctorArrivalEvent triggers NotificationService (Async).",
+      "NotificationService pushes notifications to PatientUser (Sync, e.g., a push API call).",
+      "Refined Edges based on system requirements: Create Appointment involves Payment. PatientUser initiates via a flow that requires PaymentService first. I'll model the successful payment triggering the final booking.",
+      "Final Edge refinement: PatientUser -> PaymentService (Sync for payment). PaymentService -> AppointmentService (Async to signal successful payment and trigger creation). AppointmentService -> AppointmentDB (Sync for write/read). PatientUser/AdministratorUser -> AppointmentService (Sync for other operations). DoctorArrivalEvent -> NotificationService (Async). NotificationService -> PatientUser (Sync for delivery)."
+    ]
+  }

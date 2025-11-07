@@ -1,0 +1,28 @@
+for the problem given in DATA, reply with following JSON format:
+    {
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Prompt Metadata Schema",
+  "description": "Schema for describing the difficulty and a short summary of a prompt.",
+  "properties": {
+    "difficulty": {
+      "type": "integer",
+      "description": "A score indicating the difficulty of the prompt.",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "tlder": {
+      "type": "string",
+      "description": "A concise description of the problem, intended to be 10 words or less."
+    }
+  },
+  "required": [
+    "difficulty",
+    "tlder"
+  ],
+  "additionalProperties": false
+}
+
+DATA is {{DATA}}
+
+do NOT write anything outside the JSON. 
